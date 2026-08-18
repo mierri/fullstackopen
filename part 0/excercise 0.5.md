@@ -1,5 +1,4 @@
 ´´´mermaid
-
 sequenceDiagram
     participant browser
     participant server
@@ -22,5 +21,4 @@ sequenceDiagram
     server-->>browser: [{ content: HTML is easy, date: 2023-1-1 }, ... ]
     deactivate server
     Note right of browser: El navegador ejecuta el callback que renderiza las notas, sin recargar la pagina
-
 ´´´
