@@ -30,7 +30,7 @@ Cada subcarpeta de ejercicio (`partX/nombre-del-ejercicio`) es un proyecto indep
 
 - [x] Parte 0 — Fundamentos de las aplicaciones web
 - [x] Parte 1 — Introducción a React
-- [ ] Parte 2 — Comunicación con el servidor
+- [x] Parte 2 — Comunicación con el servidor
 - [ ] Parte 3 — Programación del lado del servidor con Node.js
 - [ ] Parte 4 — Testing del backend, seguridad de la aplicación
 - [ ] Parte 5 — Testing de aplicaciones React, configuración de aplicaciones
