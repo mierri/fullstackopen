@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     phonebookService
@@ -23,6 +24,13 @@ const App = () => {
   const personsToShow = persons.filter(person =>
     person.name.toLowerCase().includes(filter.toLowerCase())
   )
+
+  const showErrorMessage = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
 
   const showSuccessMessage = (message) => {
     setSuccessMessage(message)
@@ -61,12 +69,9 @@ const App = () => {
           setNewNumber('')
         })
         .catch(() => {
-          setSuccessMessage(
+          showErrorMessage(
             `Information of ${existingPerson.name} has already been removed from server`
           )
-          setTimeout(() => {
-            setSuccessMessage(null)
-          }, 5000)
           setPersons(persons.filter(person => person.id !== existingPerson.id))
         })
 
@@ -98,6 +103,9 @@ const App = () => {
       .delete(person.id)
       .then(() => {
         setPersons(persons.filter(p => p.id !== person.id))
+      }).catch(() => {
+        showErrorMessage(`Information of ${person.name} has already been removed from server`)
+        setPersons(persons.filter(p => p.id !== person.id))
       })
   }
 
@@ -117,6 +125,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={successMessage} type="success" />
+      <Notification message={errorMessage} type="error" />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm
