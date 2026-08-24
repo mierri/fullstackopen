@@ -20,7 +20,7 @@ app.get('/api/persons', (request, response, next) => {
   Person.find({}).then(persons => {
     response.json(persons)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/info', (request, response, next) => {
@@ -32,7 +32,7 @@ app.get('/info', (request, response, next) => {
       <p>${date}</p>
     `)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -43,7 +43,7 @@ app.get('/api/persons/:id', (request, response, next) => {
       response.status(404).end()
     }
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
@@ -69,7 +69,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
