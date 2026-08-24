@@ -1,0 +1,48 @@
+@baseUrl = http://127.0.0.1:3003
+@blogId = 6a8cb4d75a79a4af999aa589
+
+GET {{baseUrl}}/api/blogs
+
+###
+
+GET {{baseUrl}}/api/blogs/{{blogId}}
+
+###
+
+POST {{baseUrl}}/api/blogs
+Content-Type: application/json
+
+{
+  "title": "React patterns",
+  "author": "Michael Chan",
+  "url": "https://reactpatterns.com/",
+  "likes": 7
+}
+
+###
+
+POST {{baseUrl}}/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Go To Statement Considered Harmful",
+  "author": "Edsger W. Dijkstra",
+  "url": "https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf",
+  "likes": 5
+}
+
+###
+
+PUT {{baseUrl}}/api/blogs/{{blogId}}
+Content-Type: application/json
+
+{
+  "title": "React patterns",
+  "author": "Michael Chan",
+  "url": "https://reactpatterns.com/",
+  "likes": 8
+}
+
+###
+
+DELETE {{baseUrl}}/api/blogs/{{blogId}}
