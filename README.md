@@ -31,7 +31,7 @@ Cada subcarpeta de ejercicio (`partX/nombre-del-ejercicio`) es un proyecto indep
 - [x] Parte 0 — Fundamentos de las aplicaciones web
 - [x] Parte 1 — Introducción a React
 - [x] Parte 2 — Comunicación con el servidor
-- [ ] Parte 3 — Programación del lado del servidor con Node.js ([Phonbook deployment](https://fullstackopen-99ai.onrender.com))
+- [x] Parte 3 — Programación del lado del servidor con Node.js ([Phonebook deployment](https://fullstackopen-99ai.onrender.com))
 - [ ] Parte 4 — Testing del backend, seguridad de la aplicación
 - [ ] Parte 5 — Testing de aplicaciones React, configuración de aplicaciones
 - [ ] Parte 6 — Manejo del estado avanzado
