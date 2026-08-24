@@ -9,7 +9,7 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch index.js",
-    "build:ui": "rm -rf dist && cd ../../part/phonebook && npm run build && cp -r dist ../../part3/phonebook-back",
+    "build:ui": "npm --prefix ../../part2/phonebook run build && node -e \"const fs = require('fs'); fs.rmSync('dist', { recursive: true, force: true }); fs.cpSync('../../part2/phonebook/dist', 'dist', { recursive: true })\"",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "dependencies": {
