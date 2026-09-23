@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import Blog from './Blog'
+import BlogForm from './BlogForm'
 
 test('renders title and author, but not url or likes by default', () => {
   const blog = {
@@ -78,4 +79,28 @@ test('clicking the like button twice calls the event handler twice', async () =>
     await user.click(likeButton)
 
     expect(mockUpdateBlog).toHaveBeenCalledTimes(2)
+})
+
+test('submitting the blog form calls the event handler with the right details', async () => {
+    const mockCreateBlog = vi.fn()
+
+    render(<BlogForm createBlog={mockCreateBlog} />)
+    
+    const user = userEvent.setup()
+    const titleInput = screen.getByPlaceholderText('title')
+    const authorInput = screen.getByPlaceholderText('author')
+    const urlInput = screen.getByPlaceholderText('url')
+    const submitButton = screen.getByText('create')
+
+    await user.type(titleInput, 'New Blog Title')
+    await user.type(authorInput, 'New Blog Author')
+    await user.type(urlInput, 'http://newblog.com')
+    await user.click(submitButton)
+
+    expect(mockCreateBlog).toHaveBeenCalledTimes(1)
+    expect(mockCreateBlog).toHaveBeenCalledWith({
+        title: 'New Blog Title',
+        author: 'New Blog Author',
+        url: 'http://newblog.com'
+    })
 })
