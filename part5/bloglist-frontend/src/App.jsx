@@ -90,7 +90,9 @@ const App = () => {
     return (
       <div>
         <Notification message={message} type={messageType} />
-        <h2>log in to application</h2>
+        <h1>Blogs App</h1>
+        <h3>Facultad de Matematicas UADY</h3>
+        <h2>Login</h2>
         <Togglable buttonLabel="login">
           <LoginForm
             handleLogin={handleLogin}
