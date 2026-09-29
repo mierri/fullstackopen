@@ -1,3 +1,5 @@
+import { Card, CardContent, Typography, Button, Box, Link as MuiLink } from '@mui/material'
+
 const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
   if (!blog) {
     return null
@@ -19,18 +21,36 @@ const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
   const isCreator = blog.user && currentUser && blog.user.username === currentUser.username
 
   return (
-    <div className="blog">
-      <h2>{blog.title} {blog.author}</h2>
-      <div><a href={blog.url}>{blog.url}</a></div>
-      <div>
-        likes {blog.likes}
-        {currentUser && <button onClick={handleLike}>like</button>}
-      </div>
-      <div>added by {blog.user ? blog.user.name : 'unknown'}</div>
-      {isCreator && (
-        <button style={{ backgroundColor: 'lightblue' }} onClick={handleRemove}>remove</button>
-      )}
-    </div>
+    <Card sx={{ mt: 2, mb: 2 }} className="blog">
+      <CardContent>
+        <Typography variant="h5" component="div" gutterBottom>
+          {blog.title} {blog.author}
+        </Typography>
+        <Box sx={{ mb: 1 }}>
+          <MuiLink href={blog.url} target="_blank" rel="noopener noreferrer">
+            {blog.url}
+          </MuiLink>
+        </Box>
+        <Box sx={{ mb: 1, display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Typography variant="body1">
+            likes {blog.likes}
+          </Typography>
+          {currentUser && (
+            <Button variant="outlined" size="small" onClick={handleLike}>
+              like
+            </Button>
+          )}
+        </Box>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          added by {blog.user ? blog.user.name : 'unknown'}
+        </Typography>
+        {isCreator && (
+          <Button variant="contained" color="error" onClick={handleRemove}>
+            remove
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   )
 }
 

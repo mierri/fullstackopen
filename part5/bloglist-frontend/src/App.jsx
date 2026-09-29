@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import {
   Routes, Route, Link, Navigate, useNavigate, useMatch
 } from 'react-router-dom'
+import { Container, AppBar, Toolbar, Button, Typography } from '@mui/material'
 
 import BlogList from './components/BlogList'
 import Blog from './components/Blog'
@@ -133,24 +134,36 @@ const App = () => {
     ? blogs.find(blog => blog.id === match.params.id)
     : null
 
-  const padding = {
-    padding: 5
-  }
-
   return (
-    <div>
-      <div>
-        <Link style={padding} to="/">blogs</Link>
-        {user ? (
-          <>
-            <Link style={padding} to="/create">new blog</Link>
-            <em style={padding}>{user.name} logged in</em>
-            <button onClick={handleLogout}>logout</button>
-          </>
-        ) : (
-          <Link style={padding} to="/login">login</Link>
-        )}
-      </div>
+    <Container>
+      <AppBar position="static" sx={{ mb: 3 }}>
+        <Toolbar>
+          <Button color="inherit" component={Link} to="/">
+            blogs
+          </Button>
+          {user ? (
+            <>
+              <Button color="inherit" component={Link} to="/create">
+                new blog
+              </Button>
+              <Typography variant="body1" sx={{ flexGrow: 1, textAlign: 'right', mr: 2 }}>
+                {user.name} logged in
+              </Typography>
+              <Button color="inherit" onClick={handleLogout}>
+                logout
+              </Button>
+            </>
+          ) : (
+            <Button color="inherit" component={Link} to="/login" sx={{ flexGrow: 1, justifyContent: 'flex-start' }}>
+              login
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      <Typography variant="h3" component="h1" gutterBottom>
+        blog app
+      </Typography>
 
       <Notification message={message} type={messageType} />
 
@@ -177,9 +190,8 @@ const App = () => {
         } />
         <Route path="/" element={<BlogList blogs={blogs} />} />
       </Routes>
-
       <Footer />
-    </div>
+    </Container>
   )
 }
 

@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { TextField, Button, Box, Typography } from '@mui/material'
 
 const BlogForm = ({ createBlog }) => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
-
-  const navigate = useNavigate()
 
   const addBlog = (event) => {
     event.preventDefault()
@@ -16,51 +14,47 @@ const BlogForm = ({ createBlog }) => {
       url: newUrl,
     })
 
-    navigate('/blogs')
     setNewTitle('')
     setNewAuthor('')
     setNewUrl('')
   }
 
   return (
-    <div>
-      <h2>create new</h2>
-      <form onSubmit={addBlog}>
-        <div>
-          title:
-          <input
-            type="text"
-            value={newTitle}
-            name="Title"
-            placeholder="title"
-            onChange={({ target }) => setNewTitle(target.value)}
-          />
-        </div>
-        <div>
-          author:
-          <input
-            type="text"
-            value={newAuthor}
-            name="Author"
-            placeholder="author"
-            onChange={({ target }) => setNewAuthor(target.value)}
-          />
-        </div>
-        <div>
-          url:
-          <input
-            type="text"
-            value={newUrl}
-            name="Url"
-            placeholder="url"
-            onChange={({ target }) => setNewUrl(target.value)}
-          />
-        </div>
-        <button type="submit">create</button>
-      </form>
-    </div>
+    <Box sx={{ mt: 4, mb: 4 }}>
+      <Typography variant="h5" component="h2" gutterBottom>
+        create new
+      </Typography>
+      <Box component="form" onSubmit={addBlog} sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 400 }}>
+        <TextField
+          label="title"
+          name="Title"
+          placeholder="title"
+          value={newTitle}
+          onChange={({ target }) => setNewTitle(target.value)}
+          fullWidth
+        />
+        <TextField
+          label="author"
+          name="Author"
+          placeholder="author"
+          value={newAuthor}
+          onChange={({ target }) => setNewAuthor(target.value)}
+          fullWidth
+        />
+        <TextField
+          label="url"
+          name="Url"
+          placeholder="url"
+          value={newUrl}
+          onChange={({ target }) => setNewUrl(target.value)}
+          fullWidth
+        />
+        <Button variant="contained" color="primary" type="submit" sx={{ mt: 1, alignSelf: 'flex-start' }}>
+          create
+        </Button>
+      </Box>
+    </Box>
   )
 }
 
 export default BlogForm
-
