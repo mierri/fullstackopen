@@ -15,6 +15,19 @@ const useBlogStore = create((set) => ({
     }))
     return returnedBlog
   },
+  likeBlog: async (id, blogObject) => {
+    const updatedBlog = await blogService.update(id, blogObject)
+    set((state) => ({
+      blogs: state.blogs.map((b) => (b.id !== id ? b : updatedBlog)),
+    }))
+    return updatedBlog
+  },
+  removeBlog: async (id) => {
+    await blogService.remove(id)
+    set((state) => ({
+      blogs: state.blogs.filter((b) => b.id !== id),
+    }))
+  },
 }))
 
 export default useBlogStore

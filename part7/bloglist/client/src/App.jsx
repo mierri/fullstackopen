@@ -22,6 +22,8 @@ const App = () => {
   const blogs = useBlogStore((state) => state.blogs)
   const fetchBlogs = useBlogStore((state) => state.fetchBlogs)
   const createBlog = useBlogStore((state) => state.createBlog)
+  const likeBlog = useBlogStore((state) => state.likeBlog)
+  const removeBlogFromStore = useBlogStore((state) => state.removeBlog)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -84,8 +86,7 @@ const App = () => {
 
   const updateBlog = async (id, blogObject) => {
     try {
-      const returnedBlog = await blogService.update(id, blogObject)
-      setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+      await likeBlog(id, blogObject)
     } catch {
       showNotification('Failed to update blog', 'error')
     }
@@ -95,8 +96,7 @@ const App = () => {
     const blogToDrop = blogs.find(b => b.id === id)
     if (window.confirm(`Remove blog ${blogToDrop.title} by ${blogToDrop.author}?`)) {
       try {
-        await blogService.remove(id)
-        setBlogs(blogs.filter(b => b.id !== id))
+        await removeBlogFromStore(id)
         showNotification(`Blog ${blogToDrop.title} removed`, 'success')
         navigate('/')
       } catch {
