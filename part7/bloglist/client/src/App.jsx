@@ -15,6 +15,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import NotFound from './components/NotFound'
 import Home from './components/Home'
 import Footer from './components/Footer'
+import useNotificationStore from './stores/notificationStore'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -22,8 +23,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
-  const [message, setMessage] = useState(null)
-  const [messageType, setMessageType] = useState('success')
+  const showNotification = useNotificationStore((state) => state.showNotification)
 
   const navigate = useNavigate()
 
@@ -61,11 +61,7 @@ const App = () => {
       setPassword('')
       navigate('/')
     } catch {
-      setMessageType('error')
-      setMessage('wrong username or password')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      showNotification('wrong username or password', 'error')
     }
   }
 
@@ -80,19 +76,10 @@ const App = () => {
     try {
       const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
-
-      setMessageType('success')
-      setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      showNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, 'success')
       navigate('/')
     } catch {
-      setMessageType('error')
-      setMessage('Failed to add blog')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      showNotification('Failed to add blog', 'error')
     }
   }
 
@@ -101,11 +88,7 @@ const App = () => {
       const returnedBlog = await blogService.update(id, blogObject)
       setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
     } catch {
-      setMessageType('error')
-      setMessage('Failed to update blog')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      showNotification('Failed to update blog', 'error')
     }
   }
 
@@ -115,18 +98,10 @@ const App = () => {
       try {
         await blogService.remove(id)
         setBlogs(blogs.filter(b => b.id !== id))
-        setMessageType('success')
-        setMessage(`Blog ${blogToDrop.title} removed`)
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
+        showNotification(`Blog ${blogToDrop.title} removed`, 'success')
         navigate('/')
       } catch {
-        setMessageType('error')
-        setMessage('Failed to remove blog')
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
+        showNotification('Failed to remove blog', 'error')
       }
     }
   }
@@ -167,7 +142,7 @@ const App = () => {
         blog app
       </Typography>
 
-      <Notification message={message} type={messageType} />
+      <Notification />
 
       <ErrorBoundary>
         <Routes>
