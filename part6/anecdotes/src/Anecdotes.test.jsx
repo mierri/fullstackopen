@@ -44,4 +44,13 @@ describe('Anecdotes unit tests', () => {
     expect(screen.getByText('Learning Redux or Zustand')).toBeInTheDocument()
     expect(screen.queryByText('Writing backend in Node')).toBeNull()
   })
+
+  it('voting increases the number of votes for an anecdote', () => {
+    const anecdotes = [{ id: '1', content: 'Vote test anecdote', votes: 0 }]
+    useAnecdoteStore.getState().actions.setAnecdotes(anecdotes)
+    useAnecdoteStore.getState().actions.vote('1')
+
+    const anecdote = useAnecdoteStore.getState().anecdotes.find((a) => a.id === '1')
+    expect(anecdote.votes).toBe(1)
+  })
 })
