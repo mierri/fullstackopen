@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Typography } from '@mui/material'
+import { Typography, Paper, List, ListItem, ListItemText, Box } from '@mui/material'
 import userService from '../services/users'
 
 const User = () => {
@@ -19,19 +19,23 @@ const User = () => {
   }
 
   return (
-    <div>
+    <Box sx={{ mt: 2 }}>
       <Typography variant="h4" component="h2" gutterBottom>
         {user.name}
       </Typography>
-      <Typography variant="h6" component="h3" gutterBottom>
+      <Typography variant="h6" component="h3" gutterBottom sx={{ mt: 2 }}>
         added blogs
       </Typography>
-      <ul>
-        {user.blogs && user.blogs.map((blog) => (
-          <li key={blog.id || blog._id}>{blog.title}</li>
-        ))}
-      </ul>
-    </div>
+      <Paper sx={{ mt: 1 }}>
+        <List>
+          {user.blogs && user.blogs.map((blog) => (
+            <ListItem key={blog.id || blog._id} divider>
+              <ListItemText primary={blog.title} />
+            </ListItem>
+          ))}
+        </List>
+      </Paper>
+    </Box>
   )
 }
 

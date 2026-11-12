@@ -1,5 +1,17 @@
 import { useState } from 'react'
-import { Card, CardContent, Typography, Button, Box, TextField, Link as MuiLink } from '@mui/material'
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  TextField,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+  Link as MuiLink,
+} from '@mui/material'
 import NotFound from './NotFound'
 import useBlogStore from '../stores/blogStore'
 
@@ -76,11 +88,15 @@ const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
             add comment
           </Button>
         </Box>
-        <ul>
-          {blog.comments && blog.comments.map((c, index) => (
-            <li key={index}>{c}</li>
-          ))}
-        </ul>
+        <Paper sx={{ mt: 1 }}>
+          <List>
+            {blog.comments && blog.comments.map((c, index) => (
+              <ListItem key={index} divider>
+                <ListItemText primary={c} />
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
       </CardContent>
     </Card>
   )
