@@ -1,7 +1,18 @@
+import { useContext } from 'react'
 import { useCreateAnecdote } from '../hooks/useAnecdotesQuery'
+import NotificationContext from '../NotificationContext'
 
 const AnecdoteForm = () => {
-  const newAnecdoteMutation = useCreateAnecdote()
+  const [, dispatch] = useContext(NotificationContext)
+
+  const newAnecdoteMutation = useCreateAnecdote({
+    onSuccess: (newAnecdote) => {
+      dispatch({ type: 'SET', payload: `anecdote '${newAnecdote.content}' created` })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR' })
+      }, 5000)
+    },
+  })
 
   const onCreate = (event) => {
     event.preventDefault()
