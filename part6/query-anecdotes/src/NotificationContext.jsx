@@ -1,5 +1,7 @@
 import { createContext, useReducer, useContext } from 'react'
 
+let timeoutId = null
+
 const notificationReducer = (state, action) => {
   switch (action.type) {
     case 'SET':
@@ -31,8 +33,11 @@ export const useNotificationValue = () => {
 export const useNotify = () => {
   const [, dispatch] = useContext(NotificationContext)
   return (message, seconds = 5) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
     dispatch({ type: 'SET', payload: message })
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       dispatch({ type: 'CLEAR' })
     }, seconds * 1000)
   }
