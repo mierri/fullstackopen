@@ -16,9 +16,13 @@ import NotFound from './components/NotFound'
 import Home from './components/Home'
 import Footer from './components/Footer'
 import useNotificationStore from './stores/notificationStore'
+import useBlogStore from './stores/blogStore'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const blogs = useBlogStore((state) => state.blogs)
+  const fetchBlogs = useBlogStore((state) => state.fetchBlogs)
+  const createBlog = useBlogStore((state) => state.createBlog)
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -28,12 +32,8 @@ const App = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-    }
     fetchBlogs()
-  }, [])
+  }, [fetchBlogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -74,8 +74,7 @@ const App = () => {
 
   const addBlog = async (blogObject) => {
     try {
-      const returnedBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(returnedBlog))
+      const returnedBlog = await createBlog(blogObject)
       showNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, 'success')
       navigate('/')
     } catch {
