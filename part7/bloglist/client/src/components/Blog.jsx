@@ -1,15 +1,16 @@
 import { Card, CardContent, Typography, Button, Box, Link as MuiLink } from '@mui/material'
+import NotFound from './NotFound'
 
 const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
   if (!blog) {
-    return null
+    return <NotFound />
   }
 
   const handleLike = () => {
     const updatedBlog = {
       ...blog,
       likes: blog.likes + 1,
-      user: blog.user ? blog.user.id : null
+      user: blog.user ? blog.user.id : null,
     }
     updateBlog(blog.id, updatedBlog)
   }
@@ -42,7 +43,7 @@ const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
           )}
         </Box>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          added by {blog.user ? blog.user.name : 'unknown'}
+          added by {blog.user.name}
         </Typography>
         {isCreator && (
           <Button variant="contained" color="error" onClick={handleRemove}>

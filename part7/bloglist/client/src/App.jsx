@@ -11,6 +11,7 @@ import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import ErrorBoundary from './components/ErrorBoundary'
 import Home from './components/Home'
 import Footer from './components/Footer'
 
@@ -167,29 +168,31 @@ const App = () => {
 
       <Notification message={message} type={messageType} />
 
-      <Routes>
-        <Route path="/blogs/:id" element={
-          <Blog
-            blog={matchedBlog}
-            updateBlog={updateBlog}
-            removeBlog={removeBlog}
-            currentUser={user}
-          />
-        } />
-        <Route path="/create" element={
-          user ? <BlogForm createBlog={addBlog} /> : <Navigate replace to="/login" />
-        } />
-        <Route path="/login" element={
-          <LoginForm
-            handleLogin={handleLogin}
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-          />
-        } />
-        <Route path="/" element={<BlogList blogs={blogs} />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/blogs/:id" element={
+            <Blog
+              blog={matchedBlog}
+              updateBlog={updateBlog}
+              removeBlog={removeBlog}
+              currentUser={user}
+            />
+          } />
+          <Route path="/create" element={
+            user ? <BlogForm createBlog={addBlog} /> : <Navigate replace to="/login" />
+          } />
+          <Route path="/login" element={
+            <LoginForm
+              handleLogin={handleLogin}
+              username={username}
+              setUsername={setUsername}
+              password={password}
+              setPassword={setPassword}
+            />
+          } />
+          <Route path="/" element={<BlogList blogs={blogs} />} />
+        </Routes>
+      </ErrorBoundary>
       <Footer />
     </Container>
   )
