@@ -14,6 +14,7 @@ import Notification from './components/Notification'
 import ErrorBoundary from './components/ErrorBoundary'
 import NotFound from './components/NotFound'
 import Users from './components/Users'
+import User from './components/User'
 import Home from './components/Home'
 import Footer from './components/Footer'
 import useNotificationStore from './stores/notificationStore'
@@ -160,6 +161,7 @@ const App = () => {
             />
           } />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<User />} />
           <Route path="/" element={<BlogList blogs={blogs} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
