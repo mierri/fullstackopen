@@ -3,11 +3,20 @@ import { useAnecdoteActions } from '../store'
 const AnecdoteForm = () => {
   const { createAnecdote } = useAnecdoteActions()
 
-  const addAnecdote = (event) => {
+  const addAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-    createAnecdote(content)
+
+    const response = await fetch('http://localhost:3001/anecdotes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ content, votes: 0 }),
+    })
+    const newAnecdote = await response.json()
+    createAnecdote(newAnecdote)
   }
 
   return (
