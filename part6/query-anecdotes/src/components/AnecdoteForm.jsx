@@ -1,22 +1,15 @@
-import { useContext } from 'react'
 import { useCreateAnecdote } from '../hooks/useAnecdotesQuery'
-import NotificationContext from '../NotificationContext'
+import { useNotify } from '../NotificationContext'
 
 const AnecdoteForm = () => {
-  const [, dispatch] = useContext(NotificationContext)
+  const notify = useNotify()
 
   const newAnecdoteMutation = useCreateAnecdote({
     onSuccess: (newAnecdote) => {
-      dispatch({ type: 'SET', payload: `anecdote '${newAnecdote.content}' created` })
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR' })
-      }, 5000)
+      notify(`anecdote '${newAnecdote.content}' created`)
     },
     onError: (error) => {
-      dispatch({ type: 'SET', payload: error.message || 'too short anecdote, must have length 5 or more' })
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR' })
-      }, 5000)
+      notify(error.message || 'too short anecdote, must have length 5 or more')
     },
   })
 

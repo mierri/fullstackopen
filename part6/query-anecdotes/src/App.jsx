@@ -1,18 +1,14 @@
-import { useContext } from 'react'
 import { useGetAnecdotes, useVoteAnecdote } from './hooks/useAnecdotesQuery'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
-import NotificationContext from './NotificationContext'
+import { useNotify } from './NotificationContext'
 
 const App = () => {
-  const [, dispatch] = useContext(NotificationContext)
+  const notify = useNotify()
 
   const updateAnecdoteMutation = useVoteAnecdote({
     onSuccess: (updatedAnecdote) => {
-      dispatch({ type: 'SET', payload: `anecdote '${updatedAnecdote.content}' voted` })
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR' })
-      }, 5000)
+      notify(`anecdote '${updatedAnecdote.content}' voted`)
     },
   })
 
