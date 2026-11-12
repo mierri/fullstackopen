@@ -13,6 +13,12 @@ const useAnecdoteStore = create((set) => ({
             : anecdote
         ),
       })),
+    updateAnecdote: (updatedAnecdote) =>
+      set((state) => ({
+        anecdotes: state.anecdotes.map((anecdote) =>
+          anecdote.id === updatedAnecdote.id ? updatedAnecdote : anecdote
+        ),
+      })),
     createAnecdote: (newAnecdote) =>
       set((state) => ({
         anecdotes: state.anecdotes.concat(newAnecdote),

@@ -3,7 +3,22 @@ import { useAnecdotes, useFilter, useAnecdoteActions } from '../store'
 const AnecdoteList = () => {
   const anecdotes = useAnecdotes()
   const filter = useFilter()
-  const { vote } = useAnecdoteActions()
+  const { updateAnecdote } = useAnecdoteActions()
+
+  const handleVote = async (anecdote) => {
+    const response = await fetch(`http://localhost:3001/anecdotes/${anecdote.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...anecdote,
+        votes: anecdote.votes + 1,
+      }),
+    })
+    const updated = await response.json()
+    updateAnecdote(updated)
+  }
 
   const filteredAnecdotes = anecdotes.filter((anecdote) =>
     anecdote.content.toLowerCase().includes(filter.toLowerCase())
@@ -17,7 +32,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => handleVote(anecdote)}>vote</button>
           </div>
         </div>
       ))}
