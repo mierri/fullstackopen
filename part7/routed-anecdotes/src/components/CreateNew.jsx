@@ -8,6 +8,10 @@ const CreateNew = () => {
   const info = useField('text')
   const navigate = useNavigate()
 
+  const { reset: resetContent, ...contentProps } = content
+  const { reset: resetAuthor, ...authorProps } = author
+  const { reset: resetInfo, ...infoProps } = info
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     await addAnecdote({
@@ -20,14 +24,10 @@ const CreateNew = () => {
   }
 
   const handleReset = () => {
-    content.reset()
-    author.reset()
-    info.reset()
+    resetContent()
+    resetAuthor()
+    resetInfo()
   }
-
-  const { reset: resetContent, ...contentProps } = content
-  const { reset: resetAuthor, ...authorProps } = author
-  const { reset: resetInfo, ...infoProps } = info
 
   return (
     <div>
