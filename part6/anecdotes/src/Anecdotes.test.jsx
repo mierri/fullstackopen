@@ -13,4 +13,21 @@ describe('Anecdotes unit tests', () => {
     useAnecdoteStore.getState().actions.setAnecdotes(anecdotes)
     expect(useAnecdoteStore.getState().anecdotes).toEqual(anecdotes)
   })
+
+  it('component displaying anecdotes receives the anecdotes from the store sorted by votes', () => {
+    const anecdotes = [
+      { id: '1', content: 'Low vote anecdote', votes: 1 },
+      { id: '2', content: 'High vote anecdote', votes: 9 },
+      { id: '3', content: 'Medium vote anecdote', votes: 5 },
+    ]
+    useAnecdoteStore.getState().actions.setAnecdotes(anecdotes)
+    useAnecdoteStore.getState().actions.setFilter('')
+
+    render(<AnecdoteList />)
+
+    const voteCounts = screen.getAllByText(/has \d+/)
+    expect(voteCounts[0]).toHaveTextContent('has 9')
+    expect(voteCounts[1]).toHaveTextContent('has 5')
+    expect(voteCounts[2]).toHaveTextContent('has 1')
+  })
 })
