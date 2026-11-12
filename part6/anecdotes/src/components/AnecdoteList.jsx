@@ -1,9 +1,11 @@
 import { useAnecdotes, useFilter, useAnecdoteActions } from '../store'
+import { useNotificationActions } from '../notificationStore'
 
 const AnecdoteList = () => {
   const anecdotes = useAnecdotes()
   const filter = useFilter()
   const { updateAnecdote } = useAnecdoteActions()
+  const { setNotification } = useNotificationActions()
 
   const handleVote = async (anecdote) => {
     const response = await fetch(`http://localhost:3001/anecdotes/${anecdote.id}`, {
@@ -18,6 +20,7 @@ const AnecdoteList = () => {
     })
     const updated = await response.json()
     updateAnecdote(updated)
+    setNotification(`you voted '${anecdote.content}'`)
   }
 
   const filteredAnecdotes = anecdotes.filter((anecdote) =>
