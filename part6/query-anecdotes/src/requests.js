@@ -17,7 +17,8 @@ export const createAnecdote = async (newAnecdote) => {
     body: JSON.stringify(newAnecdote),
   })
   if (!response.ok) {
-    throw new Error('Failed to create anecdote')
+    const errorData = await response.json()
+    throw new Error(errorData.error || 'too short anecdote, must have length 5 or more')
   }
   return response.json()
 }
