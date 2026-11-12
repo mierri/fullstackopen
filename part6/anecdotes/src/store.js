@@ -19,6 +19,10 @@ const useAnecdoteStore = create((set) => ({
           anecdote.id === updatedAnecdote.id ? updatedAnecdote : anecdote
         ),
       })),
+    deleteAnecdote: (id) =>
+      set((state) => ({
+        anecdotes: state.anecdotes.filter((anecdote) => anecdote.id !== id),
+      })),
     createAnecdote: (newAnecdote) =>
       set((state) => ({
         anecdotes: state.anecdotes.concat(newAnecdote),
