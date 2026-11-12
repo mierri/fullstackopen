@@ -12,6 +12,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import ErrorBoundary from './components/ErrorBoundary'
+import NotFound from './components/NotFound'
 import Home from './components/Home'
 import Footer from './components/Footer'
 
@@ -191,6 +192,7 @@ const App = () => {
             />
           } />
           <Route path="/" element={<BlogList blogs={blogs} />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </ErrorBoundary>
       <Footer />
