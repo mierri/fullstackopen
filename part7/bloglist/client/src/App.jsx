@@ -17,6 +17,7 @@ import Home from './components/Home'
 import Footer from './components/Footer'
 import useNotificationStore from './stores/notificationStore'
 import useBlogStore from './stores/blogStore'
+import useUserStore from './stores/userStore'
 
 const App = () => {
   const blogs = useBlogStore((state) => state.blogs)
@@ -25,9 +26,13 @@ const App = () => {
   const likeBlog = useBlogStore((state) => state.likeBlog)
   const removeBlogFromStore = useBlogStore((state) => state.removeBlog)
 
+  const user = useUserStore((state) => state.user)
+  const initUser = useUserStore((state) => state.initUser)
+  const login = useUserStore((state) => state.login)
+  const logout = useUserStore((state) => state.logout)
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const showNotification = useNotificationStore((state) => state.showNotification)
 
@@ -38,27 +43,14 @@ const App = () => {
   }, [fetchBlogs])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
+    initUser()
+  }, [initUser])
 
   const handleLogin = async (event) => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({
-        username, password,
-      })
-
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setUser(user)
+      await login({ username, password })
       setUsername('')
       setPassword('')
       navigate('/')
@@ -68,9 +60,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    blogService.setToken(null)
-    setUser(null)
+    logout()
     navigate('/')
   }
 
