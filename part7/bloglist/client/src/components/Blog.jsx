@@ -1,7 +1,12 @@
-import { Card, CardContent, Typography, Button, Box, Link as MuiLink } from '@mui/material'
+import { useState } from 'react'
+import { Card, CardContent, Typography, Button, Box, TextField, Link as MuiLink } from '@mui/material'
 import NotFound from './NotFound'
+import useBlogStore from '../stores/blogStore'
 
 const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
+  const [comment, setComment] = useState('')
+  const addComment = useBlogStore((state) => state.addComment)
+
   if (!blog) {
     return <NotFound />
   }
@@ -17,6 +22,13 @@ const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
 
   const handleRemove = () => {
     removeBlog(blog.id)
+  }
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault()
+    if (!comment.trim()) return
+    await addComment(blog.id, comment)
+    setComment('')
   }
 
   const isCreator = blog.user && currentUser && blog.user.username === currentUser.username
@@ -53,9 +65,20 @@ const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
         <Typography variant="h6" component="h3" sx={{ mt: 3, mb: 1 }}>
           comments
         </Typography>
+        <Box component="form" onSubmit={handleCommentSubmit} sx={{ mt: 1, mb: 2, display: 'flex', gap: 1 }}>
+          <TextField
+            size="small"
+            label="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <Button variant="contained" type="submit">
+            add comment
+          </Button>
+        </Box>
         <ul>
-          {blog.comments && blog.comments.map((comment, index) => (
-            <li key={index}>{comment}</li>
+          {blog.comments && blog.comments.map((c, index) => (
+            <li key={index}>{c}</li>
           ))}
         </ul>
       </CardContent>
