@@ -50,6 +50,14 @@ const Blog = ({ blog, updateBlog, removeBlog, currentUser }) => {
             remove
           </Button>
         )}
+        <Typography variant="h6" component="h3" sx={{ mt: 3, mb: 1 }}>
+          comments
+        </Typography>
+        <ul>
+          {blog.comments && blog.comments.map((comment, index) => (
+            <li key={index}>{comment}</li>
+          ))}
+        </ul>
       </CardContent>
     </Card>
   )
