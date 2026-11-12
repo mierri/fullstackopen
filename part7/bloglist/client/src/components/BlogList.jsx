@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
+  List,
+  ListItem,
+  ListItemText,
   Paper,
   Typography,
 } from '@mui/material'
@@ -15,19 +13,21 @@ const BlogList = ({ blogs }) => {
       <Typography variant="h4" component="h2" gutterBottom>
         blogs
       </Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableBody>
-            {[...blogs].sort((a, b) => b.likes - a.likes).map((blog) => (
-              <TableRow key={blog.id} className="blog-title-author">
-                <TableCell>
-                  <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Paper>
+        <List>
+          {[...blogs].sort((a, b) => b.likes - a.likes).map((blog) => (
+            <ListItem key={blog.id} divider className="blog-title-author">
+              <ListItemText
+                primary={
+                  <Link to={`/blogs/${blog.id}`}>
+                    {blog.title} {blog.author}
+                  </Link>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Paper>
     </div>
   )
 }
