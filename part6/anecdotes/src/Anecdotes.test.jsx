@@ -30,4 +30,18 @@ describe('Anecdotes unit tests', () => {
     expect(voteCounts[1]).toHaveTextContent('has 5')
     expect(voteCounts[2]).toHaveTextContent('has 1')
   })
+
+  it('correct React component receives a properly filtered list of anecdotes', () => {
+    const anecdotes = [
+      { id: '1', content: 'Learning Redux or Zustand', votes: 2 },
+      { id: '2', content: 'Writing backend in Node', votes: 4 },
+    ]
+    useAnecdoteStore.getState().actions.setAnecdotes(anecdotes)
+    useAnecdoteStore.getState().actions.setFilter('Zustand')
+
+    render(<AnecdoteList />)
+
+    expect(screen.getByText('Learning Redux or Zustand')).toBeInTheDocument()
+    expect(screen.queryByText('Writing backend in Node')).toBeNull()
+  })
 })
