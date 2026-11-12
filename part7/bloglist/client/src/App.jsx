@@ -13,6 +13,7 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import ErrorBoundary from './components/ErrorBoundary'
 import NotFound from './components/NotFound'
+import Users from './components/Users'
 import Home from './components/Home'
 import Footer from './components/Footer'
 import useNotificationStore from './stores/notificationStore'
@@ -107,6 +108,9 @@ const App = () => {
           <Button color="inherit" component={Link} to="/">
             blogs
           </Button>
+          <Button color="inherit" component={Link} to="/users">
+            users
+          </Button>
           {user ? (
             <>
               <Button color="inherit" component={Link} to="/create">
@@ -155,6 +159,7 @@ const App = () => {
               setPassword={setPassword}
             />
           } />
+          <Route path="/users" element={<Users />} />
           <Route path="/" element={<BlogList blogs={blogs} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
