@@ -9,27 +9,22 @@ const loginRouter = require('./controllers/login')
 
 const app = express()
 
+mongoose.set('strictQuery', false)
+
 logger.info('connecting to', config.MONGODB_URI)
 
 const connectToDatabase = async () => {
-  let mongoUri = config.MONGODB_URI
-  if (process.env.NODE_ENV === 'test') {
-    try {
-      await mongoose.connect(mongoUri, { family: 4, serverSelectionTimeoutMS: 2000 })
-      logger.info('connected to MongoDB')
-      return
-    } catch {
-      const { MongoMemoryServer } = require('mongodb-memory-server')
-      const mongod = await MongoMemoryServer.create()
-      mongoUri = mongod.getUri()
-    }
-  }
-
   try {
-    await mongoose.connect(mongoUri, { family: 4 })
+    await mongoose.connect(config.MONGODB_URI, { family: 4 })
     logger.info('connected to MongoDB')
   } catch (error) {
-    logger.error('error connection to MongoDB:', error.message)
+    logger.error('error connecting to MongoDB:', error.message)
+    if (process.env.NODE_ENV === 'test') {
+      const { MongoMemoryServer } = require('mongodb-memory-server')
+      const mongod = await MongoMemoryServer.create()
+      await mongoose.connect(mongod.getUri(), { family: 4 })
+      logger.info('connected to memory MongoDB')
+    }
   }
 }
 
