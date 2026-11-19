@@ -19,7 +19,11 @@ const Authors = (props) => {
     return <div>loading...</div>
   }
 
-  const authors = result.data.allAuthors
+  if (result.error) {
+    return <div>error loading authors: {result.error.message}</div>
+  }
+
+  const authors = result.data ? result.data.allAuthors : []
 
   const submitBirthYear = async (event) => {
     event.preventDefault()
