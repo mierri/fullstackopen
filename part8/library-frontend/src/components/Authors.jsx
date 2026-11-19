@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { ALL_AUTHORS, EDIT_BIRTH_YEAR } from '../queries'
 
-const Authors = (props) => {
+const Authors = ({ show, token }) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
 
@@ -11,7 +11,7 @@ const Authors = (props) => {
     refetchQueries: [{ query: ALL_AUTHORS }],
   })
 
-  if (!props.show) {
+  if (!show) {
     return null
   }
 
@@ -61,36 +61,40 @@ const Authors = (props) => {
         </tbody>
       </table>
 
-      <h3>Set birthyear</h3>
-      <form onSubmit={submitBirthYear}>
+      {token && (
         <div>
-          <label>
-            name
-            <select
-              name="name"
-              value={name || (authors[0] ? authors[0].name : '')}
-              onChange={({ target }) => setName(target.value)}
-            >
-              {authors.map((a) => (
-                <option key={a.id || a.name} value={a.name}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          <h3>Set birthyear</h3>
+          <form onSubmit={submitBirthYear}>
+            <div>
+              <label>
+                name
+                <select
+                  name="name"
+                  value={name || (authors[0] ? authors[0].name : '')}
+                  onChange={({ target }) => setName(target.value)}
+                >
+                  {authors.map((a) => (
+                    <option key={a.id || a.name} value={a.name}>
+                      {a.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div>
+              <label>
+                born
+                <input
+                  type="number"
+                  value={born}
+                  onChange={({ target }) => setBorn(target.value)}
+                />
+              </label>
+            </div>
+            <button type="submit">update author</button>
+          </form>
         </div>
-        <div>
-          <label>
-            born
-            <input
-              type="number"
-              value={born}
-              onChange={({ target }) => setBorn(target.value)}
-            />
-          </label>
-        </div>
-        <button type="submit">update author</button>
-      </form>
+      )}
     </div>
   )
 }
