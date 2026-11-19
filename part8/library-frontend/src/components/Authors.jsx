@@ -24,14 +24,16 @@ const Authors = (props) => {
   const submitBirthYear = async (event) => {
     event.preventDefault()
 
+    const authorName = name || (authors[0] ? authors[0].name : '')
+    if (!authorName) return
+
     editAuthor({
       variables: {
-        name,
+        name: authorName,
         setBornTo: parseInt(born),
       },
     })
 
-    setName('')
     setBorn('')
   }
 
@@ -60,10 +62,17 @@ const Authors = (props) => {
         <div>
           <label>
             name
-            <input
-              value={name}
+            <select
+              name="name"
+              value={name || (authors[0] ? authors[0].name : '')}
               onChange={({ target }) => setName(target.value)}
-            />
+            >
+              {authors.map((a) => (
+                <option key={a.id || a.name} value={a.name}>
+                  {a.name}
+                </option>
+              ))}
+            </select>
           </label>
         </div>
         <div>
