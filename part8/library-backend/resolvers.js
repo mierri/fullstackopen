@@ -128,6 +128,15 @@ const resolvers = {
       }
       return { value: jwt.sign(userForToken, process.env.JWT_SECRET || 'test-secret-key') }
     },
+    _resetDatabase: async () => {
+      if (process.env.NODE_ENV !== 'test') {
+        throw new GraphQLError('_resetDatabase is only available in test mode')
+      }
+      await Author.deleteMany({})
+      await Book.deleteMany({})
+      await User.deleteMany({})
+      return true
+    },
   },
 }
 
