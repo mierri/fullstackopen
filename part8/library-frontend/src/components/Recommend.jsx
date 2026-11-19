@@ -3,7 +3,13 @@ import { ME, ALL_BOOKS } from '../queries'
 
 const Recommend = (props) => {
   const userResult = useQuery(ME)
-  const booksResult = useQuery(ALL_BOOKS)
+  const favoriteGenre = userResult.data?.me?.favoriteGenre
+
+  const booksResult = useQuery(ALL_BOOKS, {
+    variables: { genre: favoriteGenre },
+    skip: !favoriteGenre,
+    fetchPolicy: 'cache-and-network',
+  })
 
   if (!props.show) {
     return null
@@ -13,12 +19,7 @@ const Recommend = (props) => {
     return <div>loading...</div>
   }
 
-  const favoriteGenre = userResult.data?.me?.favoriteGenre
   const books = booksResult.data ? booksResult.data.allBooks : []
-
-  const recommendedBooks = favoriteGenre
-    ? books.filter((b) => b.genres && b.genres.includes(favoriteGenre))
-    : []
 
   return (
     <div>
@@ -34,7 +35,7 @@ const Recommend = (props) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {recommendedBooks.map((a) => (
+          {books.map((a) => (
             <tr key={a.id || a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
