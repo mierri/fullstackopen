@@ -32,10 +32,10 @@ Cada subcarpeta de ejercicio (`partX/nombre-del-ejercicio`) es un proyecto indep
 - [x] Parte 1 — Introducción a React
 - [x] Parte 2 — Comunicación con el servidor
 - [x] Parte 3 — Programación del lado del servidor con Node.js ([Phonebook deployment](https://fullstackopen-99ai.onrender.com))
-- [ ] Parte 4 — Testing del backend, seguridad de la aplicación
-- [ ] Parte 5 — Testing de aplicaciones React, configuración de aplicaciones
-- [ ] Parte 6 — Manejo del estado avanzado
-- [ ] Parte 7 — React router, estilos, webpack, hooks
+- [x] Parte 4 — Testing del backend, seguridad de la aplicación
+- [x] Parte 5 — Testing de aplicaciones React, configuración de aplicaciones
+- [x] Parte 6 — Manejo del estado avanzado
+- [x] Parte 7 — React router, estilos, webpack, hooks
 - [ ] Parte 8 — GraphQL
 - [ ] Parte 9 — TypeScript
 - [ ] Parte 10 — React Native
