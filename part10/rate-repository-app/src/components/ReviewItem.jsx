@@ -7,6 +7,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 15,
+  },
+  topContainer: {
     flexDirection: 'row',
   },
   ratingContainer: {
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  username: {
+  title: {
     marginBottom: 4,
   },
   date: {
@@ -36,27 +38,32 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReviewItem = ({ review }) => {
+const ReviewItem = ({ review, children }) => {
   const formattedDate = review.createdAt
     ? format(new Date(review.createdAt), 'dd.MM.yyyy')
     : '';
 
+  const title = review.repository?.fullName || review.user?.username;
+
   return (
     <View style={styles.container}>
-      <View style={styles.ratingContainer}>
-        <Text fontWeight="bold" fontSize="subheading" style={styles.ratingText}>
-          {review.rating}
-        </Text>
+      <View style={styles.topContainer}>
+        <View style={styles.ratingContainer}>
+          <Text fontWeight="bold" fontSize="subheading" style={styles.ratingText}>
+            {review.rating}
+          </Text>
+        </View>
+        <View style={styles.contentContainer}>
+          <Text fontWeight="bold" fontSize="subheading" style={styles.title}>
+            {title}
+          </Text>
+          <Text color="textSecondary" style={styles.date}>
+            {formattedDate}
+          </Text>
+          <Text style={styles.text}>{review.text}</Text>
+        </View>
       </View>
-      <View style={styles.contentContainer}>
-        <Text fontWeight="bold" fontSize="subheading" style={styles.username}>
-          {review.user?.username}
-        </Text>
-        <Text color="textSecondary" style={styles.date}>
-          {formattedDate}
-        </Text>
-        <Text style={styles.text}>{review.text}</Text>
-      </View>
+      {children}
     </View>
   );
 };
