@@ -6,23 +6,7 @@ import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import Recommend from './components/Recommend'
 import { ALL_BOOKS, BOOK_ADDED } from './queries'
-
-export const updateCache = (cache, query, addedBook) => {
-  const uniqByName = (a) => {
-    let seen = new Set()
-    return a.filter((item) => {
-      let k = item.title
-      return seen.has(k) ? false : seen.add(k)
-    })
-  }
-
-  cache.updateQuery(query, (data) => {
-    if (!data) return data
-    return {
-      allBooks: uniqByName(data.allBooks.concat(addedBook)),
-    }
-  })
-}
+import { updateCache } from './updateCache'
 
 const Notify = ({ errorMessage }) => {
   if (!errorMessage) {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useMutation, useApolloClient } from '@apollo/client'
 import { LOGIN } from '../queries'
 
@@ -8,15 +8,12 @@ const LoginForm = ({ show, setToken, setPage }) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const client = useApolloClient()
 
-  const [login, result] = useMutation(LOGIN, {
+  const [login] = useMutation(LOGIN, {
     onError: (error) => {
       setErrorMessage(error.graphQLErrors[0]?.message || 'login failed')
     },
-  })
-
-  useEffect(() => {
-    if (result.data) {
-      const token = result.data.login.value
+    onCompleted: (data) => {
+      const token = data.login.value
       setToken(token)
       localStorage.setItem('library-user-token', token)
       client.resetStore()
@@ -24,8 +21,8 @@ const LoginForm = ({ show, setToken, setPage }) => {
       setPassword('')
       setErrorMessage(null)
       setPage('authors')
-    }
-  }, [result.data, setToken, setPage, client])
+    },
+  })
 
   if (!show) {
     return null
