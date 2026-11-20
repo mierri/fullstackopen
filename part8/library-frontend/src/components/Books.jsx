@@ -5,9 +5,12 @@ import { ALL_BOOKS } from '../queries'
 const Books = (props) => {
   const [selectedGenre, setSelectedGenre] = useState(null)
 
-  const allBooksResult = useQuery(ALL_BOOKS)
-  const booksResult = useQuery(ALL_BOOKS, {
+  const allBooksResult = useQuery(ALL_BOOKS, {
+    fetchPolicy: 'cache-and-network',
+  })
+  const genreBooksResult = useQuery(ALL_BOOKS, {
     variables: { genre: selectedGenre },
+    skip: !selectedGenre,
     fetchPolicy: 'cache-and-network',
   })
 
@@ -15,7 +18,10 @@ const Books = (props) => {
     return null
   }
 
-  if (allBooksResult.loading || (booksResult.loading && !booksResult.data)) {
+  if (
+    allBooksResult.loading ||
+    (selectedGenre && genreBooksResult.loading && !genreBooksResult.data)
+  ) {
     return <div>loading...</div>
   }
 
@@ -26,7 +32,11 @@ const Books = (props) => {
   const allBooks = allBooksResult.data ? allBooksResult.data.allBooks : []
   const genres = [...new Set(allBooks.flatMap((b) => b.genres || []))]
 
-  const displayedBooks = booksResult.data ? booksResult.data.allBooks : []
+  const displayedBooks = selectedGenre
+    ? genreBooksResult.data
+      ? genreBooksResult.data.allBooks
+      : []
+    : allBooks
 
   return (
     <div>

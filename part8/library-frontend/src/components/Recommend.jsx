@@ -2,7 +2,9 @@ import { useQuery } from '@apollo/client'
 import { ME, ALL_BOOKS } from '../queries'
 
 const Recommend = (props) => {
-  const userResult = useQuery(ME)
+  const userResult = useQuery(ME, {
+    fetchPolicy: 'cache-and-network',
+  })
   const favoriteGenre = userResult.data?.me?.favoriteGenre
 
   const booksResult = useQuery(ALL_BOOKS, {
@@ -15,11 +17,15 @@ const Recommend = (props) => {
     return null
   }
 
-  if (userResult.loading || booksResult.loading) {
+  if (
+    userResult.loading ||
+    (favoriteGenre && booksResult.loading && !booksResult.data)
+  ) {
     return <div>loading...</div>
   }
 
-  const books = booksResult.data ? booksResult.data.allBooks : []
+  const books =
+    favoriteGenre && booksResult.data ? booksResult.data.allBooks : []
 
   return (
     <div>
