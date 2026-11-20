@@ -6,6 +6,7 @@ import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import type { Patient, Diagnosis } from '../../types';
 import patientService from '../../services/patients';
+import EntryDetails from '../EntryDetails';
 
 interface Props {
   diagnoses: Diagnosis[];
@@ -44,11 +45,6 @@ const PatientPage = ({ diagnoses }: Props) => {
     }
   };
 
-  const getDiagnosisName = (code: string): string => {
-    const diagnosis = diagnoses.find((d) => d.code === code);
-    return diagnosis ? diagnosis.name : '';
-  };
-
   return (
     <Box sx={{ mt: 2 }}>
       <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -68,20 +64,7 @@ const PatientPage = ({ diagnoses }: Props) => {
       </Typography>
       {patient.entries && patient.entries.length > 0 ? (
         patient.entries.map((entry) => (
-          <Box key={entry.id} sx={{ mb: 2 }}>
-            <Typography>
-              {entry.date} <i>{entry.description}</i>
-            </Typography>
-            {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
-              <ul>
-                {entry.diagnosisCodes.map((code) => (
-                  <li key={code}>
-                    {code} {getDiagnosisName(code)}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Box>
+          <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />
         ))
       ) : (
         <Typography sx={{ mt: 1 }}>no entries</Typography>
