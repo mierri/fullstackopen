@@ -37,7 +37,7 @@ Cada subcarpeta de ejercicio (`partX/nombre-del-ejercicio`) es un proyecto indep
 - [x] Parte 6 — Manejo del estado avanzado
 - [x] Parte 7 — React router, estilos, webpack, hooks
 - [x] Parte 8 — GraphQL
-- [ ] Parte 9 — TypeScript
+- [x] Parte 9 — TypeScript
 - [x] Parte 10 — React Native ([Rate Repository App](#parte-10--rate-repository-app))
 - [ ] Parte 11 — CI/CD
 - [ ] Parte 12 — Contenedores
