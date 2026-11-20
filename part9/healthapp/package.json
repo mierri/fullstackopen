@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "calculateBmi": "tsx bmiCalculator.ts"
+    "calculateBmi": "tsx bmiCalculator.ts",
+    "calculateExercises": "tsx exerciseCalculator.ts"
   },
   "keywords": [],
   "devDependencies": {
