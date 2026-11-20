@@ -11,6 +11,15 @@ router.get('/', (_req, res: Response<NonSensitivePatient[]>) => {
   res.json(patientService.getNonSensitivePatients());
 });
 
+router.get('/:id', (req, res: Response<Patient>) => {
+  const patient = patientService.getPatient(req.params.id);
+  if (patient) {
+    res.json(patient);
+  } else {
+    res.status(404).end();
+  }
+});
+
 router.post('/', (req, res: Response<Patient | { error: unknown } | string>) => {
   try {
     const newPatientEntry = toNewPatient(req.body);
