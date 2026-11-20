@@ -1,4 +1,5 @@
 import { useEffect, useState, type SyntheticEvent } from 'react';
+import axios from 'axios';
 import type { DiaryEntry, Visibility, Weather } from './types.ts';
 import { getAllDiaries, createDiary } from './services/diaryService.ts';
 
@@ -8,6 +9,7 @@ const App = () => {
   const [visibility, setVisibility] = useState<Visibility>('great');
   const [weather, setWeather] = useState<Weather>('sunny');
   const [comment, setComment] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     getAllDiaries().then((data) => {
@@ -15,23 +17,57 @@ const App = () => {
     });
   }, []);
 
-  const addDiary = (event: SyntheticEvent) => {
+  const addDiary = async (event: SyntheticEvent) => {
     event.preventDefault();
-    createDiary({
-      date,
-      visibility,
-      weather,
-      comment
-    }).then((createdEntry) => {
+    try {
+      const createdEntry = await createDiary({
+        date,
+        visibility,
+        weather,
+        comment
+      });
       setDiaries(diaries.concat(createdEntry));
       setDate('');
       setComment('');
-    });
+      setErrorMessage('');
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.data) {
+          if (typeof error.response.data === 'string') {
+            setErrorMessage(error.response.data);
+          } else if (typeof error.response.data === 'object' && 'error' in error.response.data) {
+            const err = error.response.data.error;
+            if (Array.isArray(err)) {
+              setErrorMessage(
+                err
+                  .map((e: { message?: string; path?: (string | number)[] }) =>
+                    `${e.path ? e.path.join('.') + ': ' : ''}${e.message || ''}`
+                  )
+                  .join(', ')
+              );
+            } else if (typeof err === 'string') {
+              setErrorMessage(err);
+            } else {
+              setErrorMessage(JSON.stringify(err));
+            }
+          } else {
+            setErrorMessage(error.message);
+          }
+        } else {
+          setErrorMessage(error.message);
+        }
+      } else if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage('Unknown error');
+      }
+    }
   };
 
   return (
     <div>
       <h2>Add new entry</h2>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={addDiary}>
         <div>
           date
