@@ -58,6 +58,7 @@ export const RepositoryListContainer = ({
   setSelectedOrder,
   searchKeyword,
   setSearchKeyword,
+  onEndReached,
 }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -67,6 +68,8 @@ export const RepositoryListContainer = ({
     <FlatList
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={
         setSelectedOrder ? (
           <RepositoryListHeader
@@ -104,12 +107,17 @@ const RepositoryList = () => {
   const [debouncedSearchKeyword] = useDebounce(searchKeyword, 500);
 
   const variables = {
+    first: 8,
     ...getOrderVariables(selectedOrder),
     searchKeyword: debouncedSearchKeyword,
   };
 
-  const { repositories } = useRepositories(variables);
+  const { repositories, fetchMore } = useRepositories(variables);
   const navigate = useNavigate();
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <RepositoryListContainer
@@ -119,6 +127,7 @@ const RepositoryList = () => {
       setSelectedOrder={setSelectedOrder}
       searchKeyword={searchKeyword}
       setSearchKeyword={setSearchKeyword}
+      onEndReached={onEndReach}
     />
   );
 };
