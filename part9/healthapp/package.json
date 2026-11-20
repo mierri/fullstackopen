@@ -2,14 +2,20 @@
   "name": "healthapp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
+    "start": "tsx index.ts",
+    "dev": "tsx watch index.ts",
     "calculateBmi": "tsx bmiCalculator.ts",
     "calculateExercises": "tsx exerciseCalculator.ts"
   },
   "keywords": [],
+  "dependencies": {
+    "express": "^4.21.2"
+  },
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "@types/node": "^26.6.6",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
