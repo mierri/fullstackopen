@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { FlatList, View, TextInput, StyleSheet, Pressable } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import { Picker } from '@react-native-picker/picker';
+import { useDebounce } from 'use-debounce';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
 
@@ -12,13 +13,32 @@ const styles = StyleSheet.create({
   headerContainer: {
     padding: 10,
   },
+  searchInput: {
+    backgroundColor: 'white',
+    padding: 12,
+    borderRadius: 4,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#e1e4e8',
+  },
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListHeader = ({ selectedOrder, setSelectedOrder }) => {
+export const RepositoryListHeader = ({
+  selectedOrder,
+  setSelectedOrder,
+  searchKeyword,
+  setSearchKeyword,
+}) => {
   return (
     <View style={styles.headerContainer}>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search..."
+        value={searchKeyword}
+        onChangeText={setSearchKeyword}
+      />
       <Picker
         selectedValue={selectedOrder}
         onValueChange={(itemValue) => setSelectedOrder(itemValue)}
@@ -36,6 +56,8 @@ export const RepositoryListContainer = ({
   onSelectRepository,
   selectedOrder,
   setSelectedOrder,
+  searchKeyword,
+  setSearchKeyword,
 }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -50,6 +72,8 @@ export const RepositoryListContainer = ({
           <RepositoryListHeader
             selectedOrder={selectedOrder}
             setSelectedOrder={setSelectedOrder}
+            searchKeyword={searchKeyword}
+            setSearchKeyword={setSearchKeyword}
           />
         ) : null
       }
@@ -76,7 +100,14 @@ const getOrderVariables = (order) => {
 
 const RepositoryList = () => {
   const [selectedOrder, setSelectedOrder] = useState('latest');
-  const variables = getOrderVariables(selectedOrder);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [debouncedSearchKeyword] = useDebounce(searchKeyword, 500);
+
+  const variables = {
+    ...getOrderVariables(selectedOrder),
+    searchKeyword: debouncedSearchKeyword,
+  };
+
   const { repositories } = useRepositories(variables);
   const navigate = useNavigate();
 
@@ -86,6 +117,8 @@ const RepositoryList = () => {
       onSelectRepository={(id) => navigate(`/${id}`)}
       selectedOrder={selectedOrder}
       setSelectedOrder={setSelectedOrder}
+      searchKeyword={searchKeyword}
+      setSearchKeyword={setSearchKeyword}
     />
   );
 };
