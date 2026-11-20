@@ -38,7 +38,7 @@ Cada subcarpeta de ejercicio (`partX/nombre-del-ejercicio`) es un proyecto indep
 - [x] Parte 7 — React router, estilos, webpack, hooks
 - [x] Parte 8 — GraphQL
 - [ ] Parte 9 — TypeScript
-- [ ] Parte 10 — React Native
+- [x] Parte 10 — React Native ([Rate Repository App](#parte-10--rate-repository-app))
 - [ ] Parte 11 — CI/CD
 - [ ] Parte 12 — Contenedores
 - [ ] Parte 13 — Uso de una base de datos relacional
@@ -71,6 +71,28 @@ A lo largo del curso se usan, entre otras:
 - TypeScript
 - React Native
 - Docker
+
+## Parte 10 — Rate Repository App
+
+Aplicación móvil desarrollada con React Native y Expo para consultar, calificar y reseñar repositorios de GitHub, consumiendo una API GraphQL con Apollo Client y autenticación con JWT (`AsyncStorage`).
+
+### Publicación con EAS Update
+
+La aplicación está publicada mediante EAS Update en el canal `production`:
+
+- **EAS Project**: [@mierri/rate-repository-app](https://expo.dev/accounts/mierri/projects/rate-repository-app)
+- **Update Group ID**: `a6273125-4841-462d-abde-1059488d7953`
+- **Expo Go URL**: `exp://u.expo.dev/3f923677-49c6-4476-b3b6-dcda7071994b?runtime-version=1.0.0&channel-name=production`
+
+#### Código QR
+
+Escanea este código QR con la app **Expo Go** (o con la cámara en iOS / Android) para abrir la aplicación:
+
+<p align="center">
+  <img src="./part10/rate-repository-app/assets/qr-code.png" alt="Rate Repository App QR Code" width="280" />
+</p>
+
+> Nota: En caso de probar desde un emulador de Android o iOS, se puede abrir directamente mediante el enlace de Expo Go anterior.
 
 ## Sobre el curso
 

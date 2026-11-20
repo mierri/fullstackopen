@@ -27,6 +27,18 @@
     },
     "plugins": [
       "expo-status-bar"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "3f923677-49c6-4476-b3b6-dcda7071994b"
+      }
+    },
+    "owner": "mierri",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3f923677-49c6-4476-b3b6-dcda7071994b"
+    }
   }
 }
