@@ -1,12 +1,18 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { setContext } from '@apollo/client/link/context';
 import { relayStylePagination } from '@apollo/client/utilities';
 
+const defaultUri = Platform.select({
+  android: 'http://10.0.2.2:4000/graphql',
+  default: 'http://localhost:4000/graphql',
+});
+
 const uri =
   process.env.EXPO_PUBLIC_APOLLO_URI ||
   Constants.expoConfig?.extra?.apolloUri ||
-  'http://192.168.1.149:4000/graphql';
+  defaultUri;
 
 const httpLink = new HttpLink({
   uri,
