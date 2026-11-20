@@ -1,6 +1,6 @@
 import { View, TextInput, Pressable, StyleSheet } from 'react-native';
 import { useNavigate } from 'react-router-native';
-import { useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Text from './Text';

@@ -1,6 +1,6 @@
 import { View, ScrollView, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client/react';
 import theme from '../theme';
 import AppBarTab from './AppBarTab';
 import { ME } from '../graphql/queries';

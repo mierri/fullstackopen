@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-native';
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import ReviewItem from './ReviewItem';

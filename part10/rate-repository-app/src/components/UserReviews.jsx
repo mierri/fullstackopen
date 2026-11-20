@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client/react';
 import { FlatList, View, StyleSheet, Pressable, Alert } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import ReviewItem from './ReviewItem';
