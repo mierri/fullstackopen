@@ -58,8 +58,18 @@ const PatientPage = () => {
         entries
       </Typography>
       {patient.entries && patient.entries.length > 0 ? (
-        patient.entries.map((_entry, index) => (
-          <Box key={index} sx={{ mt: 1 }}>
+        patient.entries.map((entry) => (
+          <Box key={entry.id} sx={{ mb: 2 }}>
+            <Typography>
+              {entry.date} <i>{entry.description}</i>
+            </Typography>
+            {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
+              <ul>
+                {entry.diagnosisCodes.map((code) => (
+                  <li key={code}>{code}</li>
+                ))}
+              </ul>
+            )}
           </Box>
         ))
       ) : (
