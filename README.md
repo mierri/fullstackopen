@@ -81,7 +81,7 @@ Aplicación móvil desarrollada con React Native y Expo para consultar, califica
 La aplicación está publicada mediante EAS Update en el canal `production`:
 
 - **EAS Project**: [@mierri/rate-repository-app](https://expo.dev/accounts/mierri/projects/rate-repository-app)
-- **Update Group ID**: `a6273125-4841-462d-abde-1059488d7953`
+- **Update Group ID**: `46c4e082-df5f-475c-95e2-d21af35dae00`
 - **Expo Go URL**: `exp://u.expo.dev/3f923677-49c6-4476-b3b6-dcda7071994b?runtime-version=1.0.0&channel-name=production`
 
 #### Código QR

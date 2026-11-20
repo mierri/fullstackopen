@@ -6,7 +6,7 @@ import { relayStylePagination } from '@apollo/client/utilities';
 const uri =
   process.env.EXPO_PUBLIC_APOLLO_URI ||
   Constants.expoConfig?.extra?.apolloUri ||
-  'http://localhost:4000/graphql';
+  'http://192.168.1.149:4000/graphql';
 
 const httpLink = new HttpLink({
   uri,

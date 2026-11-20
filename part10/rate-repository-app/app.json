@@ -29,6 +29,7 @@
       "expo-status-bar"
     ],
     "extra": {
+      "apolloUri": "http://192.168.1.149:4000/graphql",
       "eas": {
         "projectId": "3f923677-49c6-4476-b3b6-dcda7071994b"
       }
