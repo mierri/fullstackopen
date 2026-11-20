@@ -3,6 +3,9 @@ import axios from 'axios';
 import type { DiaryEntry, Visibility, Weather } from './types.ts';
 import { getAllDiaries, createDiary } from './services/diaryService.ts';
 
+const visibilityOptions: Visibility[] = ['great', 'good', 'ok', 'poor'];
+const weatherOptions: Weather[] = ['sunny', 'rainy', 'cloudy', 'stormy', 'windy'];
+
 const App = () => {
   const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
   const [date, setDate] = useState('');
@@ -70,7 +73,7 @@ const App = () => {
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={addDiary}>
         <div>
-          date
+          date{' '}
           <input
             type="date"
             value={date}
@@ -78,23 +81,37 @@ const App = () => {
           />
         </div>
         <div>
-          visibility
-          <input
-            type="text"
-            value={visibility}
-            onChange={(event) => setVisibility(event.target.value as Visibility)}
-          />
+          visibility{' '}
+          {visibilityOptions.map((v) => (
+            <label key={v}>
+              {v}
+              <input
+                type="radio"
+                name="visibility"
+                value={v}
+                checked={visibility === v}
+                onChange={() => setVisibility(v)}
+              />
+            </label>
+          ))}
         </div>
         <div>
-          weather
-          <input
-            type="text"
-            value={weather}
-            onChange={(event) => setWeather(event.target.value as Weather)}
-          />
+          weather{' '}
+          {weatherOptions.map((w) => (
+            <label key={w}>
+              {w}
+              <input
+                type="radio"
+                name="weather"
+                value={w}
+                checked={weather === w}
+                onChange={() => setWeather(w)}
+              />
+            </label>
+          ))}
         </div>
         <div>
-          comment
+          comment{' '}
           <input
             type="text"
             value={comment}
