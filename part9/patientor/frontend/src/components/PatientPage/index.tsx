@@ -97,6 +97,7 @@ const PatientPage = ({ diagnoses }: Props) => {
             setFormError(undefined);
           }}
           error={formError}
+          diagnoses={diagnoses}
         />
       ) : (
         <Button variant="contained" sx={{ mt: 2 }} onClick={() => setShowForm(true)}>

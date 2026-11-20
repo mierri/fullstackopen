@@ -12,24 +12,25 @@ import {
   MenuItem,
   SelectChangeEvent
 } from '@mui/material';
-import type { EntryWithoutId, HealthCheckRating } from '../../types';
+import type { EntryWithoutId, HealthCheckRating, Diagnosis } from '../../types';
 
 interface Props {
   onSubmit: (values: EntryWithoutId) => Promise<void>;
   onCancel: () => void;
   error?: string;
+  diagnoses: Diagnosis[];
 }
 
 type EntryType = 'HealthCheck' | 'Hospital' | 'OccupationalHealthcare';
 
-const AddEntryForm = ({ onSubmit, onCancel, error }: Props) => {
+const AddEntryForm = ({ onSubmit, onCancel, error, diagnoses }: Props) => {
   const [entryType, setEntryType] = useState<EntryType>('HealthCheck');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [specialist, setSpecialist] = useState('');
-  const [diagnosisCodes, setDiagnosisCodes] = useState('');
+  const [diagnosisCodes, setDiagnosisCodes] = useState<string[]>([]);
 
-  const [healthCheckRating, setHealthCheckRating] = useState('0');
+  const [healthCheckRating, setHealthCheckRating] = useState<HealthCheckRating>(0);
 
   const [dischargeDate, setDischargeDate] = useState('');
   const [dischargeCriteria, setDischargeCriteria] = useState('');
@@ -40,16 +41,12 @@ const AddEntryForm = ({ onSubmit, onCancel, error }: Props) => {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    const codes = diagnosisCodes
-      .split(',')
-      .map((code) => code.trim())
-      .filter((code) => code.length > 0);
 
     const baseData = {
       description,
       date,
       specialist,
-      ...(codes.length > 0 ? { diagnosisCodes: codes } : {})
+      ...(diagnosisCodes.length > 0 ? { diagnosisCodes } : {})
     };
 
     let newEntry: EntryWithoutId;
@@ -59,7 +56,7 @@ const AddEntryForm = ({ onSubmit, onCancel, error }: Props) => {
         newEntry = {
           ...baseData,
           type: 'HealthCheck',
-          healthCheckRating: Number(healthCheckRating) as HealthCheckRating
+          healthCheckRating
         };
         break;
       case 'Hospital':
@@ -90,6 +87,11 @@ const AddEntryForm = ({ onSubmit, onCancel, error }: Props) => {
     }
 
     await onSubmit(newEntry);
+  };
+
+  const handleDiagnosisCodesChange = (event: SelectChangeEvent<string[]>) => {
+    const val = event.target.value;
+    setDiagnosisCodes(typeof val === 'string' ? val.split(',') : val);
   };
 
   return (
@@ -128,7 +130,9 @@ const AddEntryForm = ({ onSubmit, onCancel, error }: Props) => {
         />
         <TextField
           label="Date"
+          type="date"
           fullWidth
+          slotProps={{ inputLabel: { shrink: true } }}
           value={date}
           onChange={({ target }) => setDate(target.value)}
           sx={{ mb: 2 }}
@@ -140,25 +144,41 @@ const AddEntryForm = ({ onSubmit, onCancel, error }: Props) => {
           onChange={({ target }) => setSpecialist(target.value)}
           sx={{ mb: 2 }}
         />
-        <TextField
-          label="Diagnosis codes"
-          placeholder="e.g. M24.2, M51.2"
-          fullWidth
-          value={diagnosisCodes}
-          onChange={({ target }) => setDiagnosisCodes(target.value)}
-          sx={{ mb: 2 }}
-        />
+
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel id="diagnosis-codes-label">Diagnosis codes</InputLabel>
+          <Select<string[]>
+            labelId="diagnosis-codes-label"
+            label="Diagnosis codes"
+            multiple
+            value={diagnosisCodes}
+            onChange={handleDiagnosisCodesChange}
+          >
+            {diagnoses.map((d) => (
+              <MenuItem key={d.code} value={d.code}>
+                {d.code} - {d.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         {entryType === 'HealthCheck' && (
-          <TextField
-            label="Healthcheck rating"
-            fullWidth
-            type="number"
-            value={healthCheckRating}
-            onChange={({ target }) => setHealthCheckRating(target.value)}
-            inputProps={{ min: 0, max: 3 }}
-            sx={{ mb: 2 }}
-          />
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <InputLabel id="healthcheck-rating-label">Healthcheck rating</InputLabel>
+            <Select
+              labelId="healthcheck-rating-label"
+              label="Healthcheck rating"
+              value={healthCheckRating}
+              onChange={(e) =>
+                setHealthCheckRating(Number(e.target.value) as HealthCheckRating)
+              }
+            >
+              <MenuItem value={0}>Healthy</MenuItem>
+              <MenuItem value={1}>LowRisk</MenuItem>
+              <MenuItem value={2}>HighRisk</MenuItem>
+              <MenuItem value={3}>CriticalRisk</MenuItem>
+            </Select>
+          </FormControl>
         )}
 
         {entryType === 'Hospital' && (
@@ -168,7 +188,9 @@ const AddEntryForm = ({ onSubmit, onCancel, error }: Props) => {
             </Typography>
             <TextField
               label="Discharge date"
+              type="date"
               fullWidth
+              slotProps={{ inputLabel: { shrink: true } }}
               value={dischargeDate}
               onChange={({ target }) => setDischargeDate(target.value)}
               sx={{ mb: 2 }}
@@ -196,14 +218,18 @@ const AddEntryForm = ({ onSubmit, onCancel, error }: Props) => {
             </Typography>
             <TextField
               label="Sick leave start date"
+              type="date"
               fullWidth
+              slotProps={{ inputLabel: { shrink: true } }}
               value={sickLeaveStartDate}
               onChange={({ target }) => setSickLeaveStartDate(target.value)}
               sx={{ mb: 2 }}
             />
             <TextField
               label="Sick leave end date"
+              type="date"
               fullWidth
+              slotProps={{ inputLabel: { shrink: true } }}
               value={sickLeaveEndDate}
               onChange={({ target }) => setSickLeaveEndDate(target.value)}
             />
