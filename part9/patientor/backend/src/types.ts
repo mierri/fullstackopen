@@ -62,6 +62,47 @@ export type Entry =
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
 
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+
+export type NewEntry = UnionOmit<Entry, 'id'>;
+
+export const baseEntrySchema = z.object({
+  description: z.string(),
+  date: z.string(),
+  specialist: z.string(),
+  diagnosisCodes: z.array(z.string()).optional()
+});
+
+export const healthCheckEntrySchema = baseEntrySchema.extend({
+  type: z.literal('HealthCheck'),
+  healthCheckRating: z.nativeEnum(HealthCheckRating)
+});
+
+export const occupationalHealthcareEntrySchema = baseEntrySchema.extend({
+  type: z.literal('OccupationalHealthcare'),
+  employerName: z.string(),
+  sickLeave: z
+    .object({
+      startDate: z.string(),
+      endDate: z.string()
+    })
+    .optional()
+});
+
+export const hospitalEntrySchema = baseEntrySchema.extend({
+  type: z.literal('Hospital'),
+  discharge: z.object({
+    date: z.string(),
+    criteria: z.string()
+  })
+});
+
+export const newEntrySchema = z.discriminatedUnion('type', [
+  healthCheckEntrySchema,
+  occupationalHealthcareEntrySchema,
+  hospitalEntrySchema
+]);
+
 export const newPatientSchema = z.object({
   name: z.string(),
   dateOfBirth: z.string(),
