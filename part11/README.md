@@ -2,6 +2,10 @@
 
 This repository is used for the CI/CD module of the Full Stack Open course
 
+## Deployed Application
+
+- [Pokedex on Render](https://fullstackopen-pockedex.onrender.com)
+
 ## Commands
 
 Start by running `npm install` inside the project folder

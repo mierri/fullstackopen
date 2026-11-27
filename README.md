@@ -39,7 +39,7 @@ Cada subcarpeta de ejercicio (`partX/nombre-del-ejercicio`) es un proyecto indep
 - [x] Parte 8 — GraphQL
 - [x] Parte 9 — TypeScript
 - [x] Parte 10 — React Native ([Rate Repository App](#parte-10--rate-repository-app))
-- [ ] Parte 11 — CI/CD
+- [x] Parte 11 — CI/CD ([Pokedex deployment](https://fullstackopen-pockedex.onrender.com))
 - [ ] Parte 12 — Contenedores
 - [ ] Parte 13 — Uso de una base de datos relacional
 
