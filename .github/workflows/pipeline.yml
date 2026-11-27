@@ -7,6 +7,12 @@ on:
     paths:
       - 'part11/**'
       - '.github/workflows/pipeline.yml'
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+    paths:
+      - 'part11/**'
+      - '.github/workflows/pipeline.yml'
 
 jobs:
   simple_deployment_pipeline:
