@@ -1,0 +1,21 @@
+name: Hello World!
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'part11/**'
+      - '.github/workflows/hello.yml'
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say hello
+        run: |
+          echo "Hello World!"
+      - name: Print date
+        run: date
+      - name: List directory contents
+        run: ls -l
