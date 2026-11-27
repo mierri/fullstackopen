@@ -15,7 +15,7 @@ module.exports = [
   },
   js.configs.recommended,
   {
-    files: ['app.js'],
+    files: ['app.js', 'jest.setup.js'],
     languageOptions: {
       ecmaVersion: 2018,
       sourceType: 'commonjs',
