@@ -5,6 +5,7 @@ This repository is used for the CI/CD module of the Full Stack Open course
 ## Deployed Application
 
 - [Pokedex on Render](https://fullstackopen-pockedex.onrender.com)
+- [Exercises 11.21–11.22 Repository (Anecdotes CI/CD)](https://github.com/mierri/anecdotes-cicd)
 
 ## Commands
 
