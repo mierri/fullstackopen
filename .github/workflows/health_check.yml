@@ -1,0 +1,17 @@
+name: Periodic Health Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  health_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check deployed app health
+        uses: jtalk/url-health-check-action@v5
+        with:
+          url: https://fullstackopen-pockedex.onrender.com/health
+          max-attempts: 3
+          retry-delay: 10s
