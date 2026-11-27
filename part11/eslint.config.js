@@ -8,9 +8,13 @@ module.exports = [
     ignores: [
       'webpack.config.js',
       'eslint.config.js',
+      'playwright.config.js',
       '.eslintrc.js',
       'node_modules/**',
-      'dist/**'
+      'dist/**',
+      'e2e-tests/**',
+      'playwright-report/**',
+      'test-results/**'
     ]
   },
   js.configs.recommended,
