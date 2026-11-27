@@ -94,6 +94,21 @@ Escanea este código QR con la app **Expo Go** (o con la cámara en iOS / Androi
 
 > Nota: En caso de probar desde un emulador de Android o iOS, se puede abrir directamente mediante el enlace de Expo Go anterior.
 
+## Parte 11 — CI/CD
+
+Pipelines de integración y despliegue continuo configurados con GitHub Actions (ESLint, pruebas unitarias, build de producción, pruebas E2E con Playwright, despliegue automático en Render, versionado semántico por tags, soporte para `#skip`, notificaciones en Discord y health check periódico).
+
+### Pokedex (Ejercicios 11.2–11.20)
+
+- **Aplicación desplegada en Render**: [https://fullstackopen-pockedex.onrender.com](https://fullstackopen-pockedex.onrender.com)
+- **Health Check**: [`/health`](https://fullstackopen-pockedex.onrender.com/health)
+- **Version Endpoint**: [`/version`](https://fullstackopen-pockedex.onrender.com/version)
+- **Código fuente**: [`./part11`](./part11)
+
+### Anecdotes CI/CD (Ejercicios 11.21–11.22)
+
+- **Repositorio independiente**: [https://github.com/mierri/anecdotes-cicd](https://github.com/mierri/anecdotes-cicd)
+
 ## Sobre el curso
 
 Full Stack Open es un curso gratuito y abierto ofrecido por el [Departamento de Ciencias de la Computación de la Universidad de Helsinki](https://www.cs.helsinki.fi/). Más información en [fullstackopen.com](https://fullstackopen.com/es/).
